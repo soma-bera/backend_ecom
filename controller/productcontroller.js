@@ -65,3 +65,13 @@ exports.deleteproduct=async (req,res)=>
         res.json({"msg":error.message})
     }
 }
+
+exports.bulkinsert=async(req,res)=>{
+  try{
+    await products.insertMany(req.body)
+    res.json({"msg":"products saved"})
+  }
+  catch(error){
+    res.json(error.message)
+  }
+};
