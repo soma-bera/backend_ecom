@@ -5,36 +5,40 @@
 //const bcrypt=require('bcrypt');
 //let products=require('./models/product_model');//import tabel or model
 //const mail=require('./utils/gmail');
-const express=require('express');
-const cors=require('cors');
-let authroutes=require('./routes/authroutes')
-const dotenv=require('dotenv').config();
-let connection=require('./config/db');//import db
-const limiter=require('./middleware/rateLimit');
-const app=express();//middleware
-const port=process.env.PORT;
-let productroutes=require('./routes/productroutes')
 
 
-//cors() is third paty and it is passed as a middleware
-//middleware--request will not go directly to the handler we have middlewares
-//app.use("middleware"));---first it will reach here then it will go to the handler
-//request----server----middleware-----handler
-app.use(cors());
-app.use(limiter);
-app.use(express.json());//to make the objects in the object formate object destructuring
+// const express=require('express');
+// const cors=require('cors');
+// const dotenv=require('dotenv').config();
+// let connection=require('./config/db');//import db
+// const app=express();//middleware
+// const port=process.env.PORT;
+// let productroutes=require('./routes/productroutes')
+// let authroutes=require('./routes/authroutes')
+// const limiter=require('./middleware/rateLimit');
 
-app.use('/products',productroutes);
-app.use('/auth',authroutes)
+
+// //cors() is third paty and it is passed as a middleware
+// //middleware--request will not go directly to the handler we have middlewares
+// //app.use("middleware"));---first it will reach here then it will go to the handler
+// //request----server----middleware-----handler
+// app.use(cors());
+// app.use(limiter);
+// app.use(express.json());//to make the objects in the object formate object destructuring
+
+// app.use('/products',productroutes);
+// app.use('/auth',authroutes)
 
 
-app.listen(port,()=>
-{
-    console.log("the server is running on "+port);
-    connection();
-});
+// app.listen(port,()=>
+// {
+//     console.log("the server is running on "+port);
+//     connection();
+// });
 
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
+
+
 
 
 //crud operation
@@ -238,3 +242,34 @@ const mongoose = require("mongoose");
 //we will import the connection of the database 
 // let connection=require('./config/db');
 //connection()--to calll the connection
+
+
+const express = require('express');
+const app = express();
+require('dotenv').config();
+
+const cors=require('cors')
+let connection=require('./config/db')
+const limiter=require('./middleware/ratelimit')
+let productroutes=require('./routes/productroutes')
+//const { router: productroutes } = require('./routes/productroutes');
+let authroutes=require('./routes/authroutes')
+//const app=express();
+const port = process.env.PORT || 3000;
+
+
+//middleware
+
+app.use(express.json())
+app.use(cors())
+app.use(limiter)
+app.use('/products',productroutes)
+app.use('/auth',authroutes)
+
+
+
+app.listen(port,()=>{
+  console.log(`the server is running on ${port} `)
+  connection();
+  
+})
